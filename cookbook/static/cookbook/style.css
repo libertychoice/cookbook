@@ -1,0 +1,58 @@
+@import "base.css";
+
+.main-content {
+    margin-top: 80px;
+}
+
+.base-style {
+    background-color: #A52A2A;
+}
+
+.name,
+.shortdescription,
+.description {
+    max-width: 70%;
+}
+
+.ingredients {
+    max-width: 70%;
+}
+
+#shortdescription {
+    min-height: 60%;
+}
+
+.count_message {
+    color: #D4B5B5;
+}
+
+.autosize {
+    resize: none;
+    overflow: hidden;
+}
+
+.time {
+    display: inline;
+    max-width: 20%;
+}
+
+.ingr {
+    width: 10%;
+    display: inline;
+}
+
+.ingr1 {
+    width: 100%;
+}
+
+.ingr2 {
+    width: 50%;
+    display: inline;
+}
+
+.categories {
+    border: 2px solid #A52A2A;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 5px;
+}

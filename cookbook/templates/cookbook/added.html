@@ -1,0 +1,11 @@
+{% extends 'cookbook/base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+
+       <h1><a href="{% url 'recipe_page' recipe.id%}" >{{ recipe.recipe_name }}</a> добавлен</h1>
+
+{% endblock %}

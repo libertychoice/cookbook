@@ -1,0 +1,39 @@
+{% extends 'cookbook/base.html' %}
+
+{% block title %}
+    {{ recipe.name }}
+{% endblock %}
+
+{% block content %}
+    <div>{{ recipe.recipe_name }}</div>
+
+    <div>{{ recipe.shortdescription }}</div>
+{#<iframe id="ytplayer" type="text/html" width="560" height="315"#}
+{#src="{{ recipe.youtube }}"#}
+{#        frameborder="0" allowfullscreen></iframe>#}
+{#https://www.youtube.com/embed/wxigAqRG1LE#}
+    <iframe width="560" height="315" src="{{ recipe.youtube }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+{#    <iframe width="560" height="315" src="" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>#}
+
+    {% for category in  recipe.category_using.all %}
+        <div>{{ category }}</div>
+    {% endfor %}
+    {% for c in  recipe.category_geo.all %}
+        <div>{{ c }}</div>
+    {% endfor %}
+    {% for category in  recipe.category_main.all %}
+        <div>{{ category }}</div>
+    {% endfor %}
+    {% for category in  recipe.category_diet.all %}
+        <div>{{ category }}</div>
+    {% endfor %}
+    {% for category in  recipe.category_cooking.all %}
+        <div>{{ category }}</div>
+    {% endfor %}
+
+    <div>{{ recipe.time }} {{ recipe.measure }}</div>
+    <div>{{ recipe.alldescr }}</div>
+    <div>{{ recipe.count }}</div>
+    <img src="{{ MEDIA_URL }}{{ recipe.image.url }}"></img>
+
+{% endblock %}

@@ -1,0 +1,395 @@
+{% extends 'cookbook/base.html' %}
+
+{% block title %}
+    {{ recipe.name }}
+{% endblock %}
+
+{% block content %}
+
+    <form id="create_recipe" action="{% url 'create_recipe' %}" enctype="multipart/form-data" method="post">
+     {% csrf_token %}
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Название рецепта</label>
+            <div class=" col-sm-10  name">
+                <input type="text" class="form-control" maxlength="200" placeholder="Введите название...">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Краткое описание блюда</label>
+            <div class=" col-sm-10 shortdescription">
+                <textarea class="form-control autosize" id="shortdescription" maxlength="200" rows="1"></textarea>
+                <p class="text-right count_message">
+                    <small id="count_message"></small>
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Видео с YouTube</label>
+            <div class=" col-sm-10  name">
+                <input type="text" class="form-control" maxlength="200"
+                       placeholder="Вставьте ссылку на видео с YouTube, если она имеется ">
+            </div>
+        </div>
+
+
+        <label class="col-form-label">Выбор категории рецепта</label>
+
+        <div class="row">
+
+            <div class="col-sm-3 categories">
+                <label class="col-form-label">Назначение:</label>
+                <div class="form-check ">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1">
+                        На обед
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="col-sm-3 categories">
+                <label class="col-form-label">География кухни:</label>
+                <div class="form-check ">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                    <label class="form-check-label" for="defaultCheck2">
+                        Европейская
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-sm-3 categories">
+                <label class="col-form-label">Категория</label>
+                <div class="form-check ">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                    <label class="form-check-label" for="defaultCheck2">
+                        Вторые блюда
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-3 categories">
+                <label class="col-form-label">Диета</label>
+                <div class="form-check ">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                    <label class="form-check-label" for="defaultCheck2">
+                        ПП блюда
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-sm-3 categories">
+                <label class="col-form-label">Приготовление</label>
+                <div class="form-check ">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                    <label class="form-check-label" for="defaultCheck2">
+                        Духовка
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <label class="col-form-label">Ингредиенты</label>
+        <div class="form-group row ">
+            <table class="table table-hover table-responsive" id="ingredients">
+                <thead>
+                <tr>
+                    <th class="col">Ингредиент</th>
+                    <th class="col1">Количество</th>
+                    <th class="col1">Мера (единица измерения)</th>
+                    <th>Примечание</th>
+
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+{#                <tr>#}
+{##}
+{#                    <td class="col"><input type="text" class="form-control" maxlength="200"></td>#}
+{#                    <td class="col1"><input type="text" class="form-control" maxlength="5""></td>#}
+{#                    <td class="col1"><select class="form-control">#}
+{#                        <option value="1">Грамм</option>#}
+{#                        <option value="2">Килограмм</option>#}
+{#                        <option value="3">Литр</option>#}
+{#                        <option value="4">Миллилитр</option>#}
+{#                        <option value="5">Штук</option>#}
+{#                        <option value="6">Стакан</option>#}
+{#                        <option value="7">Ст. ложка</option>#}
+{#                        <option value="8">Чайная ложка</option>#}
+{#                        <option value="9">Чашка</option>#}
+{#                        <option value="10">Щепотка</option>#}
+{#                        <option value="11">Капля</option>#}
+{#                        <option value="12">Зубчик</option>#}
+{#                        <option value="13">Долька</option>#}
+{#                        <option value="14">Часть</option>#}
+{#                        <option value="15">По вкусу</option>#}
+{#                        <option value="16">Ломтик</option>#}
+{#                        <option value="17">Пучок</option>#}
+{#                    </select></td>#}
+{#                    <td><textarea class="form-control autosize" id="shortdescription" maxlength="500"#}
+{#                                  rows="1"></textarea></td>#}
+{#                    <td>#}
+{#                        <button type="button" class="btn btn-light">Удалить</button>#}
+{#                    </td>#}
+{#                </tr>#}
+
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-outline-secondary" onclick="addIngredients()">Добавить еще ингредиент</button>
+        </div>
+
+
+        <label class="col-form-label">Пошаговый рецепт</label>
+        <div class="form-group row ">
+            <table class="table table-hover table-responsive" id="steps">
+                <thead>
+                <tr>
+                    <th class="col2">Описание шага</th>
+                    <th class="">Фотография</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+{#                <tr id="1">#}
+{##}
+{#                    <td><textarea class="form-control autosize" rows="1"></textarea></td>#}
+{#                    <td>#}
+{#                        <form>#}
+{#                            <div class="form-group">#}
+{#                                <input type="file" class="form-control-file">#}
+{#                            </div>#}
+{#                        </form>#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        <button type="button" class="btn btn-light" id="step1" onclick="delStep()">Удалить</button>#}
+{#                    </td>#}
+{#                </tr>#}
+
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-outline-secondary" onclick="addStep()">Добавить шаг</button>
+        </div>
+
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Инструкция приготовления</label>
+            <div class=" col-sm-10 shortdescription">
+                <textarea class="form-control" id="description" rows="10"></textarea>
+                <p class="text-right count_message">
+                    <small>Введите детальное описание процесса приготовления блюда, если Вы добавляли приготовление по
+                        шагам - заполнять не нужно
+                    </small>
+                </p>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Количество порций</label>
+            <div class=" col-sm-10  name">
+                <input type="text" class="form-control" maxlength="5">
+                <p class="text-right count_message">
+                    <small>Например: 2, 2-5</small>
+                </p>
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Время приготовления</label>
+            <div class=" col-sm-10  name">
+                <input type="text" class="form-control time" maxlength="5">
+                <select class="form-control time" id="exampleFormControlSelect1">
+                    <option>дней</option>
+                    <option>часов</option>
+                    <option>минут</option>
+                </select>
+
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Добавьте фотографии готового блюда</label>
+            <div class=" col-sm-10  name">
+                <form>
+                    <div class="form-group">
+                        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <input type="submit" class="btn btn-outline-secondary btn-lg" value="Добавить новый рецепт">
+
+
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        var step = 1;
+        addStep();
+        addStep();
+        var ingr = 1;
+        addIngredients();
+        addIngredients();
+
+        var text_max = 200;
+        $('#count_message').html('Осталось: ' + text_max + ' символов');
+        $('#shortdescription').keyup(function () {
+            var text_length = $('#shortdescription').val().length;
+            var text_remaining = text_max - text_length;
+            $('#count_message').html('Осталось: ' + text_remaining + ' символов');
+        });
+
+
+        autosize();
+
+        function autosize() {
+            var text = $('.autosize');
+
+            text.each(function () {
+                $(this).attr('rows', 1);
+                resize($(this));
+            });
+
+            text.on('input', function () {
+                resize($(this));
+            });
+
+            function resize($text) {
+                $text.css('height', 'auto');
+                $text.css('height', $text[0].scrollHeight + 'px');
+            }
+        }
+
+
+        function addIngredients() {
+            var tbody = document.getElementById('ingredients').getElementsByTagName('tbody')[0];
+            var tr = document.createElement('tr');
+            tr.setAttribute("id","ingr"+ingr);
+
+            var td = document.createElement("td");
+            td.setAttribute("class", "col");
+            var input = document.createElement("input");
+            input.setAttribute("type", "text");
+            input.setAttribute("class", "form-control");
+            input.setAttribute("maxlength", "200");
+
+            var td1 = document.createElement("td");
+            td1.setAttribute("class", "col1");
+            var input1 = document.createElement("input");
+            input1.setAttribute("type", "text");
+            input1.setAttribute("class", "form-control");
+            input1.setAttribute("maxlength", "5");
+
+            var td2 = document.createElement("td");
+            td2.setAttribute("class", "col1");
+            var select = createOptions();
+
+            var td3 = document.createElement("td");
+            var textarea = document.createElement("textarea");
+            textarea.setAttribute("class", "form-control autosize");
+            textarea.setAttribute("id", "shortdescription");
+            textarea.setAttribute("maxlength", "500");
+            textarea.setAttribute("rows", "1");
+
+            var td4 = document.createElement("td");
+            var button = document.createElement("button");
+            button.setAttribute("type", "button");
+            button.setAttribute("class", "btn btn-light");
+            button.setAttribute("id","btn"+String(ingr));
+            button.setAttribute("onclick","delStep(this)");
+            button.innerText = "Удалить";
+
+            td.appendChild(input);
+            td1.appendChild(input1);
+            td2.appendChild(select);
+            td3.appendChild(textarea);
+            td4.appendChild(button);
+            tr.appendChild(td);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tbody.appendChild(tr);
+            ingr+=1;
+        }
+
+        function createOptions (){
+             var count = ["Грамм", "Килограмм", "Литр", "Миллилитр", "Штук", "Стакан", "Ст. ложка", "Чайная ложка", "Чашка", "Щепотка"
+                , "Капля", "Зубчик", "Долька", "Часть", "По вкусу", "Ломтик", "Пучок"]
+            var select = document.createElement("select");
+            select.setAttribute("class", "form-control");
+
+            for (var i=0;i<count.length;i++){
+                var option = document.createElement("option");
+                option.setAttribute("value", String(i));
+                option.innerText = count[i];
+                select.appendChild(option);
+            }
+            return select
+        }
+        
+        function delStep(that) {
+            var container = document.getElementById(that.getAttribute("id")).parentNode.parentNode.parentNode;
+            var parent = document.getElementById(that.getAttribute("id")).parentNode.parentNode;
+
+
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+            container.removeChild(parent);
+        }
+        
+        function addStep() {
+
+            var tbody = document.getElementById('steps').getElementsByTagName('tbody')[0];
+
+            var tr = document.createElement('tr');
+            tr.setAttribute("id","step"+String(step));
+
+            var td = document.createElement("td");
+            var textarea = document.createElement("textarea");
+            textarea.setAttribute("class", "form-control autosize");
+            textarea.setAttribute("rows", "1");
+
+
+            var td1 = document.createElement("td");
+            var form = document.createElement("form");
+
+            var div = document.createElement("div");
+            div.setAttribute("class", "form-group");
+            var input = document.createElement("input");
+            input.setAttribute("type", "file");
+            input.setAttribute("class", "form-control-file");
+
+            var td2 = document.createElement("td");
+            var button = document.createElement("button");
+            button.setAttribute("type", "button");
+            button.setAttribute("class", "btn btn-light");
+            button.innerText = "Удалить";
+            button.setAttribute("onclick","delStep(this)");
+            button.setAttribute("id","btndel"+String(step));
+            td.appendChild(textarea);
+            div.appendChild(input);
+            form.appendChild(div);
+            td1.appendChild(form);
+            td2.appendChild(button);
+            tr.appendChild(td);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tbody.appendChild(tr);
+            step+=1;
+
+            //alert(document.getElementById('steps')).getElementsByTagName('tbody')[0].appendChild();
+        }
+    </script>
+
+{% endblock %}
