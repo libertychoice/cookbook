@@ -1,39 +1,189 @@
 {% extends 'cookbook/base.html' %}
 
 {% block title %}
-    {{ recipe.name }}
+    {{ form.name }}
 {% endblock %}
 
 {% block content %}
-    <div>{{ recipe.recipe_name }}</div>
+    <div class="container">
+        {#        <div class="row base-style  recipe-params">#}
+        {#            <label class="col-form-label"#}
+        {#                   for="{{ form.recipe_name.id_for_label }}"></label>#}
+        {#            {{ form.recipe_name.label_tag }}#}
+        {#        </div>#}
+        <div class="row">
+            <div class="recipe-name">{{ form.recipe_name.value }}</div>
+        </div>
+        <div class="row d-flex justify-content-center  recipe-content">
+            <img class="recipe-img" src="{{ MEDIA_URL }}{{ recipe.image.url }}">
 
-    <div>{{ recipe.shortdescription }}</div>
-{#<iframe id="ytplayer" type="text/html" width="560" height="315"#}
-{#src="{{ recipe.youtube }}"#}
-{#        frameborder="0" allowfullscreen></iframe>#}
-{#https://www.youtube.com/embed/wxigAqRG1LE#}
-    <iframe width="560" height="315" src="{{ recipe.youtube }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-{#    <iframe width="560" height="315" src="" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>#}
+        </div>
+        <div class="row  base-style  recipe-params ">
+            {{ form.shortdescription.label_tag }}
+            {#            <label class=""#}
+            {#                   for="{{ form.shortdescription.id_for_label }}"></label>#}
+        </div>
+        <div class="row  recipe-content">
+            <div>{{ form.shortdescription.value }}</div>
+        </div>
 
-    {% for category in  recipe.category_using.all %}
-        <div>{{ category }}</div>
-    {% endfor %}
-    {% for c in  recipe.category_geo.all %}
-        <div>{{ c }}</div>
-    {% endfor %}
-    {% for category in  recipe.category_main.all %}
-        <div>{{ category }}</div>
-    {% endfor %}
-    {% for category in  recipe.category_diet.all %}
-        <div>{{ category }}</div>
-    {% endfor %}
-    {% for category in  recipe.category_cooking.all %}
-        <div>{{ category }}</div>
-    {% endfor %}
+        {% if   form.youtube.value %}
+            <div class="row  base-style recipe-params">
+                {#                <label class="col-form-label"#}
+                {#                       for="{{ form.youtube.id_for_label }}">#}
+                {{ form.youtube.label_tag }}
+                {#                </label>#}
+            </div>
+            <div class="row  d-flex justify-content-center ">
 
-    <div>{{ recipe.time }} {{ recipe.measure }}</div>
-    <div>{{ recipe.alldescr }}</div>
-    <div>{{ recipe.count }}</div>
-    <img src="{{ MEDIA_URL }}{{ recipe.image.url }}"></img>
+                <div>
+                    <iframe width="560" height="315" src="{{ form.youtube.value }}" frameborder="0"
+                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>
+
+        {% endif %}
+        <div class="row  base-style  recipe-params">
+            <label>
+                Категории:
+            </label>
+        </div>
+        {% if   form.category_using.value %}
+            <div class="row">
+                <div class="col-2">
+                    <label class="col-form-label"
+                           for="{{ form.category_using.id_for_label }}">{{ form.category_using.label_tag }}</label>
+                </div>
+                <div class="col-10">
+                    {% for category in  form.category_using.value %}
+                        <p>
+                            {{ category }}
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if   form.category_geo.value %}
+            <div class="row">
+                <div class="col-2">
+                    <label class="col-form-label"
+                           for="{{ form.category_geo.id_for_label }}">{{ form.category_geo.label_tag }}</label>
+                </div>
+                <div class="col-10">
+                    {% for category in  form.category_geo.value %}
+                        <p>
+                            {{ category }}
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if   form.category_main.value %}
+            <div class="row">
+                <div class="col-2">
+                    <label class="col-form-label"
+                           for="{{ form.category_main.id_for_label }}">{{ form.category_main.label_tag }}</label>
+                </div>
+                <div class="col-10">
+                    {% for category in  form.category_main.value %}
+                        <p>
+                            {{ category }}
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if   form.category_diet.value %}
+            <div class="row">
+                <div class="col-2">
+                    <label class="col-form-label"
+                           for="{{ form.category_diet.id_for_label }}">{{ form.category_diet.label_tag }}</label>
+                </div>
+                <div class="col-10">
+                    {% for category in  form.category_diet.value %}
+                        <p>
+                            {{ category }}
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        {% endif %}
+        {% if   form.category_cooking.value %}
+            <div class="row">
+                <div class="col-2">
+                    <label class="col-form-label"
+                           for="{{ form.category_cooking.id_for_label }}">{{ form.category_cooking.label_tag }}</label>
+                </div>
+                <div class="col-10">
+                    {% for category in  form.category_cooking.value %}
+                        <p>
+                            {{ category }}
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        {% endif %}
+        <div class="row  base-style  recipe-params">
+            {#            <label class="col-form-label"#}
+            {#                   for="{{ form.count.id_for_label }}"></label>#}
+            {{ form.count.label_tag }}
+        </div>
+
+        <div class="row  base-style  recipe-params">
+           <label>Ингредиенты</label>
+        </div>
+        <div class="row  recipe-content">
+            {% for i in ingr %}
+                <div class="col-6">{{ i.name }}&nbsp;-&nbsp;{{ i.count }}&nbsp;{{ i.measure }}</div>
+
+                <div class="col-6">{{ i.ingr_descr }}</div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="row  base-style  recipe-params">
+            {{ form.count.label_tag }}
+        </div>
+        <div class="row  recipe-content">
+            <div>{{ form.count.value }}</div>
+        </div>
+
+        <div class="row  base-style  recipe-params">
+            {{ form.time.label_tag }}
+        </div>
+        <div class="row  recipe-content">
+            <div>{{ form.time.value }}&nbsp;{{ form.measure.value }}</div>
+        </div>
+        <div class="row  base-style  recipe-params">
+            {{ form.alldescr.label_tag }}
+        </div>
+        <div class="row  recipe-content">
+            <div>{{ form.alldescr.value }}</div>
+        </div>
+
+        <div class="row  base-style  recipe-params">
+            <label>Пошаговое описание</label>
+        </div>
+        <div class="row  recipe-content">
+            {% for step in descr %}
+                <div class="col-6">{{ step.step }}</div>
+                <div class="col-6">
+                    <img class="recipe-img" src="{{ MEDIA_URL }}{{ step.photo.url }}">
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+    {#    <div>{{ form.time }} {{ form.measure }}</div>#}
+    {#    <div>{{ form.alldescr }}</div>#}
+    {#    <div>{{ form.count }}</div>#}
+    {#    <img src="{{ MEDIA_URL }}{{ form.image.url }}"></img>#}
 
 {% endblock %}

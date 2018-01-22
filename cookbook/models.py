@@ -32,13 +32,14 @@ CATEGORY_COOKING_CHOICES = (
 )
 
 MEASURE_CHOICES = (
-    (1, "Кг"),
-    (2, "Граммы")
+    ("кг", "кг"),
+    ("грамм", "грамм")
 )
 
 TIME_CHOICES = (
-    ("Минуты", "Минуты"),
-    ("Часы", "Часы")
+    ("минут", "минут"),
+    ("часов", "часов"),
+    ("дней", "дней")
 )
 
 
@@ -111,8 +112,8 @@ class Recipe(models.Model):
     Recipe model
     """
     # id = models.PositiveIntegerField(verbose_name="Номер")
-    recipe_name = models.CharField(blank=True, max_length=200)
-    shortdescription = models.CharField(blank=True, max_length=200)
+    recipe_name = models.CharField("Название рецепта", blank=True, max_length=200)
+    shortdescription = models.CharField("Краткое описание", blank=True, max_length=200)
     youtube = models.CharField(blank=True, help_text="Вставьте ссылку на видео с YouTube, если она имеется",
                                max_length=200)
     # category_using = models.CharField(max_length=200)
@@ -156,12 +157,12 @@ class Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, blank=True)
     name = models.CharField(blank=True, max_length=200)
     count = models.IntegerField(blank=True, default=1)
-    measure = models.IntegerField(blank=True, choices=MEASURE_CHOICES)
+    measure = models.CharField(blank=True,  max_length=200, choices=MEASURE_CHOICES)
     ingr_descr = models.CharField(blank=True, default="", max_length=200)
 
     def __str__(self):
-        return str(self.name) + " " + str(self.count) + " " + str(
-            list(filter(lambda x: x[0] == self.measure, MEASURE_CHOICES))[0][1])
+        return str(self.name) + " " + str(self.count) + " " + str(self.measure)
+            # list(filter(lambda x: x[0] == self.measure, MEASURE_CHOICES))[0][1])
 
 
 class AllDescription(models.Model):

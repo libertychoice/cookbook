@@ -1,4 +1,5 @@
 @import "base.css";
+@import url('https://fonts.googleapis.com/css?family=Lobster&subset=cyrillic,cyrillic-ext');
 
 .main-content {
     margin-top: 80px;
@@ -54,5 +55,31 @@
     border: 2px solid #A52A2A;
     border-radius: 5px;
     margin: 10px;
+    padding: 5px;
+}
+
+
+.recipe-params {
+    padding: 2px;
+    margin-bottom: 10px;
+}
+
+.recipe-params > label {
+    font-weight:bold;
+    color: #FFF;
+}
+
+.recipe-img {
+    max-width: 80%;
+    align-self: center;
+}
+
+.recipe-name  {
+    color: #A52A2A;
+    font-family: 'Lobster', cursive;
+    font-size: 30px;
+}
+
+.recipe-content {
     padding: 5px;
 }

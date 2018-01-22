@@ -27,14 +27,16 @@ CATEGORY_COOKING_CHOICES = (
     (2, "Гриль")
 )
 
+
 MEASURE_CHOICES = (
-    (1, "Кг"),
-    (2, "Граммы")
+    ("кг", "кг"),
+    ("грамм", "грамм")
 )
 
 TIME_CHOICES = (
-    (1, "Минуты"),
-    (2, "Часы")
+    ("минут", "минут"),
+    ("часов", "часов"),
+    ("дней", "дней")
 )
 
 
@@ -90,23 +92,23 @@ class AllDescriptionForm(forms.ModelForm):
 
 class RecipeForm(forms.ModelForm):
 
-    recipe_name = forms.CharField(max_length=100)
-    shortdescription = forms.CharField(required=False, widget=forms.Textarea, max_length=200)
-    youtube = forms.CharField(required=False, max_length=100)
+    recipe_name = forms.CharField(label=u"Название рецепта", max_length=100)
+    shortdescription = forms.CharField(label=u"Описание", required=False, widget=forms.Textarea, max_length=200)
+    youtube = forms.CharField(label="Видео с YouTube", required=False, max_length=100)
     #category_using = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple,
            #                                    choices=CATEGORY_USING_CHOICES)
-    category_using = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple,
+    category_using = forms.MultipleChoiceField(label="Назначение", required=False, widget=forms.CheckboxSelectMultiple,
                                                choices=models.CategoryUsing.objects.all().values_list('id', 'options'))
-    category_geo = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple,
+    category_geo = forms.MultipleChoiceField(label="География кухни", required=False, widget=forms.CheckboxSelectMultiple,
                                              choices=models.CategoryGeo.objects.all().values_list('id', 'options'))
-    category_main = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=models.CategoryMain.objects.all().values_list('id', 'options'))
-    category_diet = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple,
+    category_main = forms.MultipleChoiceField(label="Блюдо", required=False, widget=forms.CheckboxSelectMultiple, choices=models.CategoryMain.objects.all().values_list('id', 'options'))
+    category_diet = forms.MultipleChoiceField(label="Диета", required=False, widget=forms.CheckboxSelectMultiple,
                                               choices=models.CategoryDiet.objects.all().values_list('id', 'options'))
-    category_cooking = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple,
+    category_cooking = forms.MultipleChoiceField(label="Приготовление", required=False, widget=forms.CheckboxSelectMultiple,
                                                  choices=models.CategoryCooking.objects.all().values_list('id', 'options'))
-    alldescr = forms.CharField(widget=forms.Textarea, required=False, max_length=1000)
-    count = forms.CharField(required=False, max_length=5)
-    time = forms.CharField(required=False, max_length=200)
+    alldescr = forms.CharField(label="Текст рецепта", widget=forms.Textarea, required=False, max_length=1000)
+    count = forms.CharField(label="Количество порций", required=False, max_length=5)
+    time = forms.CharField(label="Время приготовления", required=False, max_length=200)
     measure = forms.ChoiceField(required=False, choices=TIME_CHOICES)
     image = forms.ImageField(required=False)
 
