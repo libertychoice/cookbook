@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
-
+from login_auth.models import User
 # Create your models here.
 MAX_LEN_TEXT = 20
 
@@ -128,8 +128,9 @@ class Recipe(models.Model):
     measure = models.CharField(blank=True, max_length=200, choices=TIME_CHOICES)
     # description = models.ManyToManyField(AllDescription, blank=True)
     alldescr = models.TextField(blank=True, max_length=200)
-    count = models.CharField(blank=True, max_length=200)
+    count = models.CharField(blank=True, default="", max_length=200)
     image = models.ImageField(blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, default="")
     #,upload_to = 'files/'
     # datetime = models.DateTimeField(auto_now=True)
     # author = models.TextField(blank=True,)

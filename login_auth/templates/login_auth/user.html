@@ -1,0 +1,7 @@
+{% block user %}
+{% if username %}
+        <li class="auth_user"><a href='{% url 'logout' %}'>Log out ({{ username }})</a></li>
+    {% else %}
+        <li class="auth_user"><a href='{% url 'login' %}'>Log in</a></li>
+    {% endif %}
+{% endblock %}

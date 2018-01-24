@@ -1,10 +1,11 @@
-{% extends 'cookbook/base.html' %}
+{% extends 'base/base.html' %}
 
 {% block title %}
     {{ form.name }}
 {% endblock %}
 
 {% block content %}
+
     <div class="container">
         {#        <div class="row base-style  recipe-params">#}
         {#            <label class="col-form-label"#}
@@ -15,8 +16,9 @@
             <div class="recipe-name">{{ form.recipe_name.value }}</div>
         </div>
         <div class="row d-flex justify-content-center  recipe-content">
+            {% if recipe.image %}
             <img class="recipe-img" src="{{ MEDIA_URL }}{{ recipe.image.url }}">
-
+            {% endif %}
         </div>
         <div class="row  base-style  recipe-params ">
             {{ form.shortdescription.label_tag }}
@@ -172,8 +174,9 @@
             {% for step in descr %}
                 <div class="col-6">{{ step.step }}</div>
                 <div class="col-6">
+                {% if step.photo %}
                     <img class="recipe-img" src="{{ MEDIA_URL }}{{ step.photo.url }}">
-
+                {% endif %}
                 </div>
 
             {% endfor %}

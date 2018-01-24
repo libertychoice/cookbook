@@ -12,13 +12,16 @@
 
     <!-- Bootstrap core CSS -->
     {#    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.3/litera/bootstrap.min.css" rel="stylesheet">#}
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet">
+    {#    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet">#}
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
 
-    <link href="{% static 'cookbook/style.css' %}" rel="stylesheet">
-    <link href="{% static 'cookbook/reset.css' %}" rel="stylesheet">
+    <link href="{% static 'base/style.css' %}" rel="stylesheet">
+    <link href="{% static 'base/reset.css' %}" rel="stylesheet">
+    {% block styles %}
 
+    {% endblock %}
 </head>
 
 <body>
@@ -62,8 +65,8 @@
 </nav>
 
 
-<div class="row   main-content">
-    <div class="nav-side-menu col-sm-2">
+<div class="row ">
+    <div class="nav-side-menu col-sm-2  main-content">
         <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
         <div class="menu-list">
@@ -129,9 +132,11 @@
 
 
     {#    <main role="main" class="container col-sm-6">#}
-    <div role="main" class="col-sm-7">
+    <div role="main" class="col-sm-7  main-content">
 
         <div class="starter-template">
+            {% block user %} {% endblock %}
+
 
             {% block content %}{% endblock %}
 
@@ -141,7 +146,29 @@
     </div><!-- /.container -->
 
 
-    <div class="col-sm-3">
+    <div class="col-sm-3 user-login d-inline-flex flex-nowrap justify-content-end">
+
+        {% if request.user.is_authenticated %}
+
+            <div class="text-right">
+                <small>Здравствуйте, {% if request.user.first_name %} {{ request.user.first_name }} {% else %}
+                    {{ request.user }}{% endif %}
+                    <form action="{% url 'logout' %}" method="post" class="user-form" role="form" id="logout">
+                        {% csrf_token %}
+                        <a href="#" onclick="document.getElementById('logout').submit(); return false;">Выйти</a>
+                    </form>
+                </small>
+            </div>
+        {% else %}
+            <form action="{% url 'login' %}" method="post" class="user-form" role="form" id="login">
+                {% csrf_token %}
+                <div class="text-right">
+                    <small>
+                        <a href="#" onclick="document.getElementById('login').submit(); return false;">Войти</a>
+                    </small>
+                </div>
+            </form>
+        {% endif %}
 
     </div>
 </div>
@@ -155,7 +182,9 @@
         crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
 {#<script src="{% static jquery.formset.js %}"></script>#}
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+{#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>#}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.formset.js' %}"></script>
 

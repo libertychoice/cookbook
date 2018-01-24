@@ -1,0 +1,24 @@
+@import "base.css";
+@import url('https://fonts.googleapis.com/css?family=Lobster&subset=cyrillic,cyrillic-ext');
+
+.main-content {
+    margin-top: 80px;
+}
+
+.base-style {
+    background-color: #A52A2A;
+}
+
+
+.count_message {
+    color: #D4B5B5;
+}
+
+.user-login {
+    /*display: inline;*/
+    margin-top: 60px;
+}
+
+.user-form {
+    display: inline;
+}
