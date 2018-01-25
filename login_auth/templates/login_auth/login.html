@@ -1,5 +1,8 @@
 {% extends 'base/base.html' %}
 {% load static %}
+
+{% block user %}
+{% endblock %}
 {% block content %}
     {#        <form id="login" action="{% url 'login' %}" enctype="multipart/form-data" method="post">#}
     {#        {% csrf_token %}#}
@@ -62,6 +65,12 @@
                                 </div>
                             </div>
                         </div>
+                        {% if  login_error %}
+                            {#                {% for error in form.error_messages %}#}
+
+                            <div class="row alert alert-danger">{{ login_error }}</div>
+                            {#                {% endfor %}#}
+                        {% endif %}
                     </form>
 
 

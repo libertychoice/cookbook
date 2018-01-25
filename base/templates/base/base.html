@@ -135,7 +135,6 @@
     <div role="main" class="col-sm-7  main-content">
 
         <div class="starter-template">
-            {% block user %} {% endblock %}
 
 
             {% block content %}{% endblock %}
@@ -147,12 +146,13 @@
 
 
     <div class="col-sm-3 user-login d-inline-flex flex-nowrap justify-content-end">
-
+        {##} {% block user %}
         {% if request.user.is_authenticated %}
 
             <div class="text-right">
-                <small>Здравствуйте, {% if request.user.first_name %} {{ request.user.first_name }} {% else %}
-                    {{ request.user }}{% endif %}
+                <small>Здравствуйте, <a href="{% url 'user_page' request.user.id %}">{% if request.user.first_name %}
+                    {{ request.user.first_name }} {% else %}
+                    {{ request.user }}{% endif %}</a>
                     <form action="{% url 'logout' %}" method="post" class="user-form" role="form" id="logout">
                         {% csrf_token %}
                         <a href="#" onclick="document.getElementById('logout').submit(); return false;">Выйти</a>
@@ -169,6 +169,7 @@
                 </div>
             </form>
         {% endif %}
+    {% endblock %}
 
     </div>
 </div>

@@ -4,13 +4,14 @@
 {% block title %}
     Home
 {% endblock %}
-
+{% block user %}
+{% endblock %}
 {% block styles %}
      <link href="{% static 'login_auth/login.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-    <form id="create_recipe" action="{% url 'create_user' %}" enctype="multipart/form-data" method="post">
+    <form id="create_recipe" action="{% url 'create_user' %}" enctype="multipart/form-data" method="post" role="form">
         {% csrf_token %}
         <div class="container">
             <div class="row">
@@ -83,10 +84,10 @@
                     </p>
                 </div>
             </div>
-            {% if form.error_messages %}
+            {% if form.errors %}
 {#                {% for error in form.error_messages %}#}
 
-                <div class="row alert alert-danger">{{ form.error_messages }}</div>
+                <div class="row alert alert-danger">{{ form.errors }}</div>
 {#                {% endfor %}#}
             {% endif %}
 

@@ -7,6 +7,8 @@ from django.forms.formsets import formset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.template import RequestContext, loader, Template
 from django.contrib import auth
+
+from login_auth.models import User
 from . import forms
 import json
 
@@ -18,9 +20,9 @@ def create_user(request):
     :param request:
     :return:
     """
-    form = forms.SignUpForm()
-    #print(str(form))
 
+    #print(str(form))
+    form = None
     if request.method == 'POST':
         form = forms.SignUpForm(request.POST)
         # form = UserCreationForm(request.POST)
@@ -36,6 +38,8 @@ def create_user(request):
 
             auth.login(request, new_user)
             return HttpResponseRedirect("/")
+    else:
+        form = forms.SignUpForm()
     print(str(form.error_messages))
     return render(request, 'login_auth/register.html', {'form': form})
 
@@ -77,3 +81,12 @@ def logout(request):
     """
     auth.logout(request)
     return HttpResponseRedirect("/")
+
+
+def show_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    # ingr = sorted(get_list_or_404(Ingredient, recipe=recipe), key=lambda x: x.id)
+    # descr = sorted(get_list_or_404(AllDescription, recipe=recipe), key=lambda x: x.id)
+    # form = forms.UserChangeForm(instance=user)
+    form = forms.AdminUserChangeForm(instance=user)
+    return render(request, 'login_auth/user.html', {'form': form, })

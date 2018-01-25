@@ -5,6 +5,8 @@ from django.forms.formsets import formset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import auth
 import json
+
+from login_auth.models import User
 from . import forms
 
 
