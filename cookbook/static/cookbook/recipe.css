@@ -62,8 +62,21 @@
     color: #A52A2A;
     font-family: 'Lobster', cursive;
     font-size: 30px;
+    margin: 5px;
 }
 
 .recipe-content {
     padding: 5px;
+}
+
+.item {
+    border-radius: 5px;
+    border: 1px dashed;
+    border-color: #e39f9a;
+    margin-bottom: 10px;
+}
+
+.item-style {
+    background-color: #A52A2A;
+    opacity: 0.6;
 }

@@ -1,7 +1,11 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block title %}
     {{ form.name }}
+{% endblock %}
+{% block styles %}
+    <link href="{% static 'cookbook/recipe.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -22,8 +26,8 @@
         </div>
         <div class="row  base-style  recipe-params ">
             {{ form.shortdescription.label_tag }}
-            {#            <label class=""#}
-            {#                   for="{{ form.shortdescription.id_for_label }}"></label>#}
+            {#                        <label class=""#}
+            {#                               for="{{ form.shortdescription.id_for_label }}"> {{ form.shortdescription.label_tag }}</label>#}
         </div>
         <div class="row  recipe-content">
             <div>{{ form.shortdescription.value }}</div>
@@ -83,14 +87,15 @@
         {% if   form.category_main.value %}
             <div class="row">
                 <div class="col-2">
-                    <label class="col-form-label"
-                           for="{{ form.category_main.id_for_label }}">{{ form.category_main.label_tag }}</label>
+                    {#                    <label class="col-form-label"#}
+                    {#                           for="{{ form.category_main.id_for_label }}">{{ form.category_main.label_tag }}</label>#}
+                    {{ form.category_main.label_tag }}
                 </div>
                 <div class="col-10">
                     {% for category in  form.category_main.value %}
-                        <p>
+                        {#                        <p>#}
                             {{ category }}
-                        </p>
+                        {#                        </p>#}
                     {% endfor %}
                 </div>
             </div>
@@ -164,7 +169,7 @@
             {{ form.alldescr.label_tag }}
         </div>
         <div class="row  recipe-content">
-            <div>{{ form.alldescr.value }}</div>
+            <div>{{ form.alldescr.value|linebreaks }}</div>
         </div>
 
         <div class="row  base-style  recipe-params">

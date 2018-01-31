@@ -97,7 +97,7 @@ class AllDescriptionForm(forms.ModelForm):
 
 class RecipeForm(forms.ModelForm):
     recipe_name = forms.CharField(label=RECIPE_NAME, max_length=100)
-    shortdescription = forms.CharField(label=DESCRIPTION, required=False, widget=forms.Textarea, max_length=200)
+    shortdescription = forms.CharField(label=DESCRIPTION, required=False, widget=forms.Textarea, max_length=500)
     youtube = forms.CharField(label=YOUTUBE, required=False, max_length=100)
     category_using = forms.MultipleChoiceField(label=CATEGORY_USING, required=False, widget=forms.CheckboxSelectMultiple,
                                                choices=models.CategoryUsing.objects.all().values_list('id', 'options'))
@@ -112,7 +112,7 @@ class RecipeForm(forms.ModelForm):
                                                  widget=forms.CheckboxSelectMultiple,
                                                  choices=models.CategoryCooking.objects.all().values_list('id',
                                                                                                           'options'))
-    alldescr = forms.CharField(label=ALL_DESCR, widget=forms.Textarea, required=False, max_length=1000)
+    alldescr = forms.CharField(label=ALL_DESCR, widget=forms.Textarea, required=False, max_length=10000)
     count = forms.CharField(label=COUNT, required=True, max_length=5)
     time = forms.CharField(label=TIME, required=False, max_length=200)
     measure = forms.ChoiceField(required=False, choices=TIME_CHOICES)

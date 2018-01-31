@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_save
 from login_auth.models import User
 # Create your models here.
-MAX_LEN_TEXT = 20
+MAX_LEN_TEXT = 200
 
 CATEGORY_USING_CHOICES = (
     (1, "На обед"),
@@ -113,7 +113,7 @@ class Recipe(models.Model):
     """
     # id = models.PositiveIntegerField(verbose_name="Номер")
     recipe_name = models.CharField("Название рецепта", blank=True, max_length=200)
-    shortdescription = models.CharField("Краткое описание", blank=True, max_length=200)
+    shortdescription = models.CharField("Краткое описание", blank=True, max_length=500)
     youtube = models.CharField(blank=True, help_text="Вставьте ссылку на видео с YouTube, если она имеется",
                                max_length=200)
     # category_using = models.CharField(max_length=200)
@@ -127,12 +127,12 @@ class Recipe(models.Model):
     time = models.CharField(blank=True, max_length=200)
     measure = models.CharField(blank=True, max_length=200, choices=TIME_CHOICES)
     # description = models.ManyToManyField(AllDescription, blank=True)
-    alldescr = models.TextField(blank=True, max_length=200)
+    alldescr = models.TextField(blank=True, max_length=10000)
     count = models.CharField(blank=True, default="", max_length=200)
     image = models.ImageField(blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, default="")
     #,upload_to = 'files/'
-    # datetime = models.DateTimeField(auto_now=True)
+    datetime = models.DateTimeField("Дата создания", auto_now_add=True, blank=True)  #
     # author = models.TextField(blank=True,)
     # calories = models.TextField(blank=True,)
 
@@ -140,8 +140,8 @@ class Recipe(models.Model):
         return self.recipe_name
 
     def get_short_text(self):
-        if len(self.shortdescription) > 10:
-            return self.shortdescription[:MAX_LEN_TEXT]
+        if len(self.shortdescription) > MAX_LEN_TEXT:
+            return self.shortdescription[:MAX_LEN_TEXT] + '...'
         else:
             return self.shortdescription
 

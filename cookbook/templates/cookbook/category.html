@@ -1,0 +1,11 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    {% for recipe in category_recipes %}
+        <h1><a href="{% url 'recipe_page' recipe.id %}">{{ recipe.recipe_name }}</a></h1>
+        <p>{{ recipe.get_short_text }}</p>
+    {% endfor %}
+{% endblock %}

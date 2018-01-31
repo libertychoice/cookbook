@@ -14,7 +14,7 @@ class DescriptionAdmin(admin.TabularInline):
 
 class RecipeAdmin(admin.ModelAdmin):
     # fields = ('recipe_name', 'shortdescription' ,'youtube', 'category_using','category_geo','category_main',
-    #         'category_diet','category_cooking','time','measure', 'alldescr','count','image')
+    #         'category_diet','category_cooking','time','measure', 'alldescr','count','image', 'datetime')
     # readonly_fields = ('recipe_name', )
     inlines = [IngedientAdmin, DescriptionAdmin, ]
 

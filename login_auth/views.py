@@ -14,6 +14,7 @@ import json
 
 LOGIN_ERROR = "Пользователь не существует"
 
+
 def create_user(request):
     """
     Register new user
@@ -21,7 +22,7 @@ def create_user(request):
     :return:
     """
 
-    #print(str(form))
+    # print(str(form))
     form = None
     if request.method == 'POST':
         form = forms.SignUpForm(request.POST)
@@ -56,16 +57,15 @@ def login(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
         user = auth.authenticate(username=username, password=password)
-        print(user)
         if user is not None:
             auth.login(request, user)
-            #t = Template("<button>Make me happy</button>")
-            #return t.render(RequestContext(request, {}))
-            #return HttpResponseRedirect("/")
+            # t = Template("<button>Make me happy</button>")
+            # return t.render(RequestContext(request, {}))
+            # return HttpResponseRedirect("/")
             # context.update(csrf(request))
-            #print(request.POST)
+            # print(request.POST)
             return HttpResponseRedirect("/")
-            #return render(request, 'login_auth/login.html', context)
+            # return render(request, 'login_auth/login.html', context)
         else:
             login_error = LOGIN_ERROR
             context = {"login_error": login_error}
@@ -85,8 +85,37 @@ def logout(request):
 
 def show_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
+    recipes = sorted(get_list_or_404(Recipe, author=user_id), key=lambda x: x.id)
     # ingr = sorted(get_list_or_404(Ingredient, recipe=recipe), key=lambda x: x.id)
     # descr = sorted(get_list_or_404(AllDescription, recipe=recipe), key=lambda x: x.id)
     # form = forms.UserChangeForm(instance=user)
     form = forms.AdminUserChangeForm(instance=user)
-    return render(request, 'login_auth/user.html', {'form': form, })
+    return render(request, 'login_auth/user.html', {'form': form, 'recipes': recipes})
+
+
+def change_user(request, user_id):
+    """
+    Change user params
+    :param request:
+    :return:
+    """
+    context = {}
+    user = get_object_or_404(User, id=user_id)
+    recipes = sorted(get_list_or_404(Recipe, author=user_id), key=lambda x: x.id)
+    print(recipes)
+    if request.method == 'POST':
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
+        form = forms.AdminUserChangeForm(request.POST, instance=user)
+        if form.is_valid():
+            if password1 and password2:
+                user.set_password(password2)
+                user.save()
+            return HttpResponseRedirect("/")
+            # return render(request, 'login_auth/login.html', context)
+        else:
+            return render(request, 'login_auth/user.html', {'form': form, 'recipes': recipes})
+    else:
+
+        form = forms.AdminUserChangeForm(instance=user)
+        return render(request, 'login_auth/user.html', {'form': form, 'recipes': recipes})
