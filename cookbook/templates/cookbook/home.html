@@ -1,38 +1,125 @@
 {% extends 'base/base.html' %}
+{#{% extends "admin/base_site.html" %}#}
 {% load static %}
 
 {% block title %}
     Свежие рецепты
 {% endblock %}
+{% block styles %}
+    <link href="{% static 'cookbook/recipe.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
+    <div class="container item">
+        <form id="search_recipe" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            {#    action="{% url 'search_recipe' %}"   {{ form.as_table }}#}
+
+            <div class="container">
+                <div class="form-group row  d-flex align-items-center">
+                    <label class="col-sm-2 col-form-label" for="{{ form.recipe_name.id_for_label }}">Название
+                        рецепта</label>
+                    <div class=" col-sm-10  name">
+                        {{ form.recipe_name }}
+                        <div class="invalid-feedback">
+                            {{ form.recipe_name.errors }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row d-flex justify-content-end">
+                    <button class="btn btn-second btn-sm btn-style" type="button" data-toggle="collapse"
+                            data-target="#collapseParams"
+                            aria-expanded="false" aria-controls="collapseExample"
+                            onclick="changeVisible('find_recipe')">
+                        Расширенный поиск
+                    </button>
+                    <input type="submit" class="btn btn-second btn-sm btn-style" id="find_recipe" value="Найти рецепты">
+                </div>
+                <div class="collapse" id="collapseParams">
+                    <label class="col-form-label">Выбор категории рецепта</label>
+                    <div class="d-flex flex-wrap">
+                        {#                <div class="row">#}
+                        {% if form.category_using|length > 0 %}
+                            <div class="col-sm-3 categories">
+                                <label class="col-form-label">Назначение:</label>
+                                {% for field in form.category_using %}
+                                    <div>{{ field }}</div>
+
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if form.category_geo|length > 0 %}
+                            <div class="col-sm-3 categories">
+                                <label class="col-form-label">География кухни:</label>
+                                {% for field in form.category_geo %}
+                                    <div>{{ field }}</div>
+
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if form.category_main|length > 0 %}
+                            <div class="col-sm-3 categories">
+                                <label class="col-form-label">Категория</label>
+                                {% for field in form.category_main %}
+                                    <div>{{ field }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {#                </div>#}
+
+                        {#                <div class="row">#}
+                        {% if form.category_diet|length > 0 %}
+                            <div class="col-sm-3 categories">
+                                <label class="col-form-label">Диета</label>
+                                {% for field in form.category_diet %}
+                                    <div>{{ field }}</div>
+                                {% endfor %}
+
+                            </div>
+                        {% endif %}
 
 
-    {#    <form id="create_recipe" action="{% url 'create_recipe' %}" enctype="multipart/form-data" method="post">#}
-    {#     {% csrf_token %}#}
-    {#    <input type="submit" class="btn btn-outline-secondary btn-lg" onclick="location.href='{% url 'create_user' %}'"#}
-    {#           value="Зарегистрироваться">#}
-    {#    </form>#}
-    {##}
-    {##}
-    {##}
-    {#        <h1><a href="{% url 'recipe_page' recipe.id %}">{{ recipe.recipe_name }}</a></h1>#}
-    {#        <p>{{ recipe.get_short_text }}</p>#}
-    {##}
+                        {% if form.category_cooking|length > 0 %}
+                            <div class="col-sm-3 categories">
+                                <label class="col-form-label">Приготовление</label>
+                                {% for field in form.category_cooking %}
+                                    <div>{{ field }}</div>
+                                {% endfor %}
 
-    {% block styles %}
-        <link href="{% static 'cookbook/recipe.css' %}" rel="stylesheet">
-    {% endblock %}
+                            </div>
+                        {% endif %}
+                        {#                </div>#}
+                    </div>
 
-    <div class="container">
-        <div class="row  base-style  recipe-params ">
-            <label>{{ title }}</label>
-        </div>
-        {% for recipe in recipes %}
+                    <div class="form-group row  d-flex align-items-center">
+                        {#                <div class="">#}
+                        <label class="col-sm-2 col-form-label">Название ингредиента</label>
+                        {#                </div>#}
+
+                        <div class="col-sm-10 name">
+                            {{ form.ingredients }}
+
+                        </div>
+
+
+                    </div>
+                    <input type="submit" class="btn btn-second btn-sm btn-style" value="Найти рецепты">
+
+                </div>
+
+            </div>
+
+
+        </form>
+    </div>
+
+    {% if filter_recipes %}
+
+        {% for recipe in filter_recipes %}
             <div class="item">
-                {#            <div class="row">#}
                 <a class="recipe-name" href="{% url 'recipe_page' recipe.id %}">{{ recipe.recipe_name }}</a>
-                {#            </div>#}
                 <div class="row">
                     <div class="col-2 d-flex justify-content-center  recipe-content">
                         {% if recipe.image %}
@@ -57,28 +144,28 @@
                                 {% if   recipe.category_using.all %}
                                     {% for category in  recipe.category_using.all %}
                                         <label>
-                                            {{ category }}&nbsp;
+                                            {{ category|lower }}&nbsp;
                                         </label>
                                     {% endfor %}
                                 {% endif %}
                                 {% if   recipe.category_geo.all %}
                                     {% for category in  recipe.category_geo.all %}
                                         <label>
-                                            {{ category }}&nbsp;
+                                            {{ category|lower }}&nbsp;
                                         </label>
                                     {% endfor %}
                                 {% endif %}
                                 {% if   recipe.category_main.all %}
                                     {% for category in  recipe.category_main.all %}
                                         <label>
-                                            {{ category }}&nbsp;
+                                            {{ category|lower }}&nbsp;
                                         </label>
                                     {% endfor %}
                                 {% endif %}
                                 {% if   recipe.category_diet.all %}
                                     {% for category in  recipe.category_diet.all %}
                                         <label>
-                                            {{ category }}&nbsp;
+                                            {{ category|lower }}&nbsp;
                                         </label>
 
                                     {% endfor %}
@@ -86,21 +173,96 @@
                                 {% if   recipe.category_cooking.value %}
                                     {% for category in  recipe.category_cooking.value %}
                                         <label>
-                                            {{ category }}&nbsp;
+                                            {{ category|lower }}&nbsp;
                                         </label>
                                     {% endfor %}
                                 {% endif %}
                             </div>
 
-                            {#                    <div class="row">#}
-
-                            {##}
-                            {#                    </div>#}
-
                             <div class="row  recipe-content">
                                 <div>Добавил: {{ recipe.author.first_name }}&nbsp;{{ recipe.author.last_name }}</div>
                             </div>
 
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container">
+        <div class="row  base-style  recipe-params ">
+            <label>{{ view.title }}</label>
+        </div>
+        {% for recipe in view.get_recipes %}
+
+            <div class="item">
+                <a class="recipe-name" href="{% url 'recipe_page' recipe.id %}">{{ recipe.recipe_name }}</a>
+                <div class="row">
+                    <div class="col-2 d-flex justify-content-center  recipe-content">
+                        {% if recipe.image %}
+                            <img class="recipe-img" src="{{ MEDIA_URL }}{{ recipe.image.url }}">
+                        {% endif %}
+                    </div>
+
+                    <div class="col-10">
+                        <div class="container">
+                            <div class="row  recipe-content">
+                                <div>{{ recipe.get_short_text }}&nbsp;
+                                    {% if recipe.get_short_text %}
+                                        <a href="{% url 'recipe_page' recipe.id %}">далее</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row  item-style recipe-params">
+                                <label>
+                                    Категории:&nbsp;
+                                </label>
+                                {% if   recipe.category_using.all %}
+                                    {% for category in  recipe.category_using.all %}
+                                        <label>
+                                            {{ category|lower }}&nbsp;
+                                        </label>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if   recipe.category_geo.all %}
+                                    {% for category in  recipe.category_geo.all %}
+                                        <label>
+                                            {{ category|lower }}&nbsp;
+                                        </label>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if   recipe.category_main.all %}
+                                    {% for category in  recipe.category_main.all %}
+                                        <label>
+                                            {{ category|lower }}&nbsp;
+                                        </label>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if   recipe.category_diet.all %}
+                                    {% for category in  recipe.category_diet.all %}
+                                        <label>
+                                            {{ category|lower }}&nbsp;
+                                        </label>
+
+                                    {% endfor %}
+                                {% endif %}
+                                {% if   recipe.category_cooking.value %}
+                                    {% for category in  recipe.category_cooking.value %}
+                                        <label>
+                                            {{ category|lower }}&nbsp;
+                                        </label>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <div class="row  recipe-content">
+                                <div>Добавил: {{ recipe.author.first_name }}&nbsp;{{ recipe.author.last_name }}</div>
+                            </div>
 
                         </div>
 
@@ -113,5 +275,22 @@
         {% endfor %}
     </div>
 
+{% endblock %}
 
+{% block scripts %}
+    <div id="footer"></div>
+
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <script>
+        function changeVisible(idName) {
+            if (document.getElementById(idName).style.display == 'none') {
+                document.getElementById(idName).style.display = '';
+            } else {
+                document.getElementById(idName).style.display = 'none';
+            }
+            return false;
+        }
+
+    </script>
+    {{ form.media }}
 {% endblock %}

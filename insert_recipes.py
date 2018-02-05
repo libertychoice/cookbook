@@ -21,7 +21,7 @@ for file in os.listdir(DIR):
     values = (
     r['name'], 'masha', r['ingredients'], '1-11-11', r['description'], str(r['category']), str(r['calories']), r['image'])
     print(values)
-    #values = ("aa","vv","ss","rr","rrr","ddd","saaa","aaaaa")
+
     for i in values:
         print(type(i))
     a = "INSERT INTO cookbook_recipe (name, author, ingredients, datetime, description, category, calories, image) VALUES (%s,%s,%s,%s,%s,%s,%s,%s);"

@@ -42,10 +42,6 @@
                 <a class="nav-link" href="#">Кулинарные советы<span class="sr-only">(current)</span></a>
             </li>
 
-
-            {#            <li class="nav-item">#}
-            {#       active          <a class="nav-link disabled" href="#">Поиск рецептов</a>#}
-            {#            </li>#}
             <li class="nav-item">
                 <a class="nav-link" href="#">Поиск рецептов</a>
             </li>
@@ -53,9 +49,6 @@
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">Все рецепты</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    {#                    <a class="dropdown-item" href="#">Action</a>#}
-                    {#                    <a class="dropdown-item" href="#">Another action</a>#}
-                    {#                    <a class="dropdown-item" href="#">Something else here</a>#}
                     {% for category in categories %}
                         <a class="dropdown-item" href="{% url 'show_category' category.id %}">{{ category }}</a>
                     {% endfor %}
@@ -66,8 +59,9 @@
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-secondary-outline my-2 my-sm-0" type="submit">Search</button>
+            <button type="button" class="btn btn-light" onclick="location.href='{% url 'create_recipe' %}'"
+                    value="">Добавить рецепт
+            </button>
         </form>
     </div>
 </nav>
@@ -80,37 +74,12 @@
         <div class="menu-list">
 
             <ul id="menu-content" class="menu-content collapse out">
-                {#                <li>#}
-                {#                    <a href="#">#}
-                {#                        <i class="fa fa-dashboard fa-lg"></i> Dashboard#}
-                {#                    </a>#}
-                {#                </li>#}
-                {##}
-                {#                <li data-toggle="collapse" data-target="#products" class="collapsed active">#}
-                {#                    <a href="#"><i class="fa fa-gift fa-lg"></i> UI Elements </a>#}
-                {#                </li>#}
-                {#                <ul class="sub-menu collapse" id="products">#}
-                {#                    <li class="active"><a href="#">CSS3 Animation</a></li>#}
-                {#                    <li><a href="#">General</a></li>#}
-                {#                    <li><a href="#">Buttons</a></li>#}
-                {#                    <li><a href="#">Tabs & Accordions</a></li>#}
-                {#                    <li><a href="#">Typography</a></li>#}
-                {#                    <li><a href="#">FontAwesome</a></li>#}
-                {#                    <li><a href="#">Slider</a></li>#}
-                {#                    <li><a href="#">Panels</a></li>#}
-                {#                    <li><a href="#">Widgets</a></li>#}
-                {#                    <li><a href="#">Bootstrap Model</a></li>#}
-                {#                </ul>#}
-                {##}
-                {##}
-                {#                <li data-toggle="collapse" data-target="#service" class="collapsed">#}
-                {#                    <a href="#"><i class="fa fa-globe fa-lg"></i> Services </a>#}
-                {##}
-                {#                </li>#}
+
 
                 {% for category in categories %}
                     <li data-toggle="collapse" data-target="#service" class="collapsed">
-                        <a href="{% url 'show_category' category.id %}"><i class="fa fa-globe fa-lg"></i> {{ category }}
+                        <a href="{% url 'show_category' category.id %}"><i
+                                class="fa fa-cutlery fa-lg"></i> {{ category }}
                         </a>
 
                     </li>
@@ -187,6 +156,7 @@
                 </div>
             </form>
         {% endif %}
+
     {% endblock %}
 
     </div>
@@ -206,14 +176,12 @@
 
                     <div class="social-media">
                         <ul class="list-inline">
-                            <li class="list-inline-item"><a href="http://www.nextbootstrap.com/" title=""><i
+                            <li class="list-inline-item"><a href="https://vk.com/club146092602" title=""><i
                                     class="fa fa-vk"></i></a></li>
-                            <li class="list-inline-item"><a href="http://www.nextbootstrap.com/" title=""><i
+                            <li class="list-inline-item"><a
+                                    href="https://play.google.com/store/apps/details?id=com.ggl.jr.cookbooksearchbyingredients"
+                                    title=""><i
                                     class="fa fa-android"></i></a></li>
-                            {#                            <li class="list-inline-item"><a href="http://www.nextbootstrap.com/" title=""><i#}
-                            {#                                    class="fa fa-google-plus"></i></a></li>#}
-                            {#                            <li class="list-inline-item"><a href="http://www.nextbootstrap.com/" title=""><i#}
-                            {#                                    class="fa fa-linkedin"></i></a></li>#}
                         </ul>
                     </div>
                 </div>
@@ -285,7 +253,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                    <p>Copyright © 2017. Your Company.</p>
+                    <p>Copyright © 2017. Y&M</p>
                 </div>
                 <div class="col-sm-6"></div>
             </div>

@@ -1,6 +1,10 @@
+from dal import autocomplete
 from django import forms
-from . import models
 from djangoformsetjs.utils import formset_media_js
+
+from . import models
+
+# from tagging.forms import TagField
 
 RECIPE_NAME = "Название рецепта"
 DESCRIPTION = "Описание"
@@ -14,6 +18,7 @@ ALL_DESCR = "Текст рецепта"
 COUNT = "Количество порций"
 TIME = "Время приготовления"
 AUTHOR = "Автор рецепта"
+INGREDIENTS = "Ингридиенты"
 
 CATEGORY_USING_CHOICES = (
     ("1", "На обед"),
@@ -93,13 +98,44 @@ class AllDescriptionForm(forms.ModelForm):
         fields = '__all__'
 
 
+class RecipeSearchForm(forms.ModelForm):
+    recipe_name = forms.CharField(label=RECIPE_NAME, max_length=100)
+    category_using = forms.MultipleChoiceField(label=CATEGORY_USING, required=False,
+                                               widget=forms.CheckboxSelectMultiple,
+                                               choices=models.CategoryUsing.objects.all().values_list('id', 'options'))
+    category_geo = forms.MultipleChoiceField(label=CATEGORY_GEO, required=False,
+                                             widget=forms.CheckboxSelectMultiple,
+                                             choices=models.CategoryGeo.objects.all().values_list('id', 'options'))
+    category_main = forms.MultipleChoiceField(label=CATEGORY_MAIN, required=False, widget=forms.CheckboxSelectMultiple,
+                                              choices=models.CategoryMain.objects.all().values_list('id', 'options'))
+    category_diet = forms.MultipleChoiceField(label=CATEGORY_DIET, required=False, widget=forms.CheckboxSelectMultiple,
+                                              choices=models.CategoryDiet.objects.all().values_list('id', 'options'))
+    category_cooking = forms.MultipleChoiceField(label=CATEGORY_COOKING, required=False,
+                                                 widget=forms.CheckboxSelectMultiple,
+                                                 choices=models.CategoryCooking.objects.all().values_list('id',
+                                                                                                          'options'))
+
+    def __init__(self, *args, **kwargs):
+        super(RecipeSearchForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = models.RecipeSearchModel
+        widgets = {
+            'ingredients': autocomplete.TaggitSelect2(
+                'select2_list'
+            )
+        }
+
+        fields = ('recipe_name', 'category_using', 'category_geo', 'category_main', 'category_diet', 'category_cooking',
+                  'ingredients')
 
 
 class RecipeForm(forms.ModelForm):
     recipe_name = forms.CharField(label=RECIPE_NAME, max_length=100)
     shortdescription = forms.CharField(label=DESCRIPTION, required=False, widget=forms.Textarea, max_length=500)
     youtube = forms.CharField(label=YOUTUBE, required=False, max_length=100)
-    category_using = forms.MultipleChoiceField(label=CATEGORY_USING, required=False, widget=forms.CheckboxSelectMultiple,
+    category_using = forms.MultipleChoiceField(label=CATEGORY_USING, required=False,
+                                               widget=forms.CheckboxSelectMultiple,
                                                choices=models.CategoryUsing.objects.all().values_list('id', 'options'))
     category_geo = forms.MultipleChoiceField(label=CATEGORY_GEO, required=False,
                                              widget=forms.CheckboxSelectMultiple,
@@ -118,7 +154,6 @@ class RecipeForm(forms.ModelForm):
     measure = forms.ChoiceField(required=False, choices=TIME_CHOICES)
     image = forms.ImageField(required=False)
     author = forms.CharField(label=AUTHOR, required=False, max_length=200)
-
 
     def __init__(self, *args, **kwargs):
         super(RecipeForm, self).__init__(*args, **kwargs)

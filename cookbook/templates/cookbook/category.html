@@ -1,11 +1,89 @@
 {% extends 'base/base.html' %}
+{% load static %}
+
 {% block title %}
     Home
 {% endblock %}
 
+
+{% block styles %}
+    <link href="{% static 'cookbook/recipe.css' %}" rel="stylesheet">
+{% endblock %}
 {% block content %}
+
     {% for recipe in category_recipes %}
-        <h1><a href="{% url 'recipe_page' recipe.id %}">{{ recipe.recipe_name }}</a></h1>
-        <p>{{ recipe.get_short_text }}</p>
+        <div class="item">
+            <a class="recipe-name" href="{% url 'recipe_page' recipe.id %}">{{ recipe.recipe_name }}</a>
+            <div class="row">
+                <div class="col-2 d-flex justify-content-center  recipe-content">
+                    {% if recipe.image %}
+                        <img class="recipe-img" src="{{ MEDIA_URL }}{{ recipe.image.url }}">
+                    {% endif %}
+                </div>
+
+                <div class="col-10">
+                    <div class="container">
+                        <div class="row  recipe-content">
+                            <div>{{ recipe.get_short_text }}&nbsp;
+                                {% if recipe.get_short_text %}
+                                    <a href="{% url 'recipe_page' recipe.id %}">далее</a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row  item-style recipe-params">
+                            <label>
+                                Категории:&nbsp;
+                            </label>
+                            {% if   recipe.category_using.all %}
+                                {% for category in  recipe.category_using.all %}
+                                    <label>
+                                        {{ category }}&nbsp;
+                                    </label>
+                                {% endfor %}
+                            {% endif %}
+                            {% if   recipe.category_geo.all %}
+                                {% for category in  recipe.category_geo.all %}
+                                    <label>
+                                        {{ category }}&nbsp;
+                                    </label>
+                                {% endfor %}
+                            {% endif %}
+                            {% if   recipe.category_main.all %}
+                                {% for category in  recipe.category_main.all %}
+                                    <label>
+                                        {{ category }}&nbsp;
+                                    </label>
+                                {% endfor %}
+                            {% endif %}
+                            {% if   recipe.category_diet.all %}
+                                {% for category in  recipe.category_diet.all %}
+                                    <label>
+                                        {{ category }}&nbsp;
+                                    </label>
+
+                                {% endfor %}
+                            {% endif %}
+                            {% if   recipe.category_cooking.value %}
+                                {% for category in  recipe.category_cooking.value %}
+                                    <label>
+                                        {{ category }}&nbsp;
+                                    </label>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="row  recipe-content">
+                            <div>Добавил: {{ recipe.author.first_name }}&nbsp;{{ recipe.author.last_name }}</div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
     {% endfor %}
 {% endblock %}

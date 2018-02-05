@@ -19,7 +19,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('cookbook.urls')),
-    path('auth/', include('login_auth.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('admin/', admin.site.urls),
+                  path('', include('cookbook.urls')),
+                  path('auth/', include('login_auth.urls')),
+                  # path('test/', include('select2_taggit.urls')),
+                  # path('test1/', include('select2_outside_admin.urls')),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

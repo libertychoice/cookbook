@@ -80,3 +80,11 @@
     background-color: #A52A2A;
     opacity: 0.6;
 }
+
+.tagged {
+    width: 50px;
+}
+
+.btn-style {
+    margin: 5px;
+}
