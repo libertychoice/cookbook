@@ -15,12 +15,9 @@ def get_ingredients():
     return choices
 
 urlpatterns = [
-    path('', views.UpdateView.as_view(), name='home'),
+    path('', views.IndexView.as_view(), name='home'),
     path('about/', views.about, name='about'),
-    path('create/', views.create, name='create'),
-    path('recipes/', views.recipes, name='recipes'),
     path('create_recipe/', views.create_recipe, name='create_recipe'),
-    path('search_recipe/', views.search_recipe, name='search_recipe'),
     path('category/<int:category_id>/', views.show_category, name='show_category'),
     path('recipes/<int:recipe_id>/', views.show_recipe, name='recipe_page'),
     path(
@@ -31,3 +28,7 @@ urlpatterns = [
         name='select2_list',
     ),
 ]
+
+# path('search_recipe/', views.search_recipe, name='search_recipe'),
+# path('create/', views.create, name='create'),
+# path('recipes/', views.recipes, name='recipes'),

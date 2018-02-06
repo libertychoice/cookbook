@@ -121,13 +121,13 @@ class RecipeSearchForm(forms.ModelForm):
     class Meta:
         model = models.RecipeSearchModel
         widgets = {
-            'ingredients': autocomplete.TaggitSelect2(
+            'ingredient': autocomplete.TaggitSelect2(
                 'select2_list'
             )
         }
 
         fields = ('recipe_name', 'category_using', 'category_geo', 'category_main', 'category_diet', 'category_cooking',
-                  'ingredients')
+                  'ingredient')
 
 
 class RecipeForm(forms.ModelForm):

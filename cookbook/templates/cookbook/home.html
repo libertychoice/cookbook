@@ -99,7 +99,7 @@
                         {#                </div>#}
 
                         <div class="col-sm-10 name">
-                            {{ form.ingredients }}
+                            {{ form.ingredient }}
 
                         </div>
 
@@ -116,7 +116,9 @@
     </div>
 
     {% if filter_recipes %}
-
+        <div class="row  base-style  recipe-params ">
+            <label>{{ filter_title }}</label>
+        </div>
         {% for recipe in filter_recipes %}
             <div class="item">
                 <a class="recipe-name" href="{% url 'recipe_page' recipe.id %}">{{ recipe.recipe_name }}</a>

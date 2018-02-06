@@ -86,7 +86,7 @@ def get_path(instance, filename):
 
 
 class RecipeSearchModel(models.Model):
-    ingredients = TaggableManager(blank=True, )
+    ingredient = TaggableManager(blank=True, )
 
 
 class Recipe(models.Model):
@@ -125,8 +125,8 @@ def replace_youtube_link(sender, instance, **kwargs):
     instance.youtube = instance.youtube.replace("youtu.be", "www.youtube.com/embed")
 
 
-class IngredientBase(models.Model):
-    tag = TaggableManager(blank=True)
+# class IngredientBase(models.Model):
+#     tag = TaggableManager(blank=True)
 
 
 class Ingredient(models.Model):
