@@ -107,20 +107,26 @@ def about(request):
 #     return render(request, 'cookbook/create.html')
 
 
-@login_required
-def create_recipe(request):
+class CreateRecipeView(generic.View):
     """
     Create new recipe
     :param request:
     :return:
     """
-    IngrFormSet = formset_factory(forms.IngredientForm, can_delete=True)
-    AllDescrFormSet = formset_factory(forms.AllDescriptionForm, can_delete=True)
 
-    if request.method == 'POST':
+    def get(self, request, **kwargs):
+        IngrFormSet = formset_factory(forms.IngredientForm, can_delete=True)
+        AllDescrFormSet = formset_factory(forms.AllDescriptionForm, can_delete=True)
+        ingr = IngrFormSet()
+        descr = AllDescrFormSet()
+        form = forms.RecipeForm()
+        return render(request, 'cookbook/create.html', {'form': form, 'formset': ingr, 'all_descr': descr})
+
+    def post(self, request, **kwargs):
+        IngrFormSet = formset_factory(forms.IngredientForm, can_delete=True)
+        AllDescrFormSet = formset_factory(forms.AllDescriptionForm, can_delete=True)
         json_string = request.POST
         form = forms.RecipeForm(request.POST, request.FILES, initial={'author': ""})
-
         if form.is_valid():
 
             recipe = form.save(commit=False)
@@ -138,12 +144,6 @@ def create_recipe(request):
                 p.recipe = recipe
                 p.save()
             return render(request, 'cookbook/added.html', {'form': form, 'recipe': recipe})
-    else:
-        ingr = IngrFormSet()
-        descr = AllDescrFormSet()
-        form = forms.RecipeForm()
-    return render(request, 'cookbook/create.html', {'form': form, 'formset': ingr, 'all_descr': descr})
-
 
 def show_recipe(request, recipe_id):
     """

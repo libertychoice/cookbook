@@ -1,7 +1,7 @@
 from dal import autocomplete
 from taggit.models import Tag
 from .models import Ingredient
-
+from django.contrib.auth.decorators import login_required
 from django.urls import include, path
 from . import views
 
@@ -17,7 +17,7 @@ def get_ingredients():
 urlpatterns = [
     path('', views.IndexView.as_view(), name='home'),
     path('about/', views.about, name='about'),
-    path('create_recipe/', views.create_recipe, name='create_recipe'),
+    path('create_recipe/', login_required(views.CreateRecipeView.as_view()), name='create_recipe'),
     path('category/<int:category_id>/', views.show_category, name='show_category'),
     path('recipes/<int:recipe_id>/', views.show_recipe, name='recipe_page'),
     path(
@@ -28,6 +28,8 @@ urlpatterns = [
         name='select2_list',
     ),
 ]
+
+# path('create_recipe/', views.create_recipe, name='create_recipe'),
 
 # path('search_recipe/', views.search_recipe, name='search_recipe'),
 # path('create/', views.create, name='create'),
