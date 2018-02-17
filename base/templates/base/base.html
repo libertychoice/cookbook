@@ -147,7 +147,7 @@
                 </small>
             </div>
         {% else %}
-            <form action="{% url 'login' %}" method="post" class="user-form" role="form" id="login">
+            <form action="{% url 'login' %}" method="get" class="user-form" role="form" id="login">
                 {% csrf_token %}
                 <div class="text-right">
                     <small>
