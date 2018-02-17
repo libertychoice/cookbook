@@ -119,7 +119,7 @@ class ShowRecipeView(generic.View):
         :return: Form, Recipe object, Ingredient object, AllDescription object (description with steps)
         """
         recipe = get_object_or_404(Recipe, id=recipe_id)
-        ingr = sorted(get_list_or_404(Ingredient, recipe=recipe), key=lambda x: x.id)
+        ingr = sorted(Ingredient.objects.filter(recipe=recipe), key=lambda x: x.id)
         descr = sorted(AllDescription.objects.filter(recipe=recipe), key=lambda x: x.id)
         form = forms.RecipeForm(instance=recipe)
         return render(request, 'cookbook/recipe.html', {'form': form, 'recipe': recipe, 'ingr': ingr, 'descr': descr})
