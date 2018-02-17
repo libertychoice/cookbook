@@ -2,16 +2,19 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import User
+from .constants import USER_NAME, USER_NAME_HELP_TEXT, LAST_NAME, \
+    LAST_NAME_HELP_TEXT, PASSWD1, PASSWD1_HELP_TEXT, \
+    PASSWD2, PASSWD2_HELP_TEXT, VALIDATION_ERROR
 
 
 class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(label="Имя", max_length=30, required=False,
-                                 help_text='Ваше имя. Заполнять не обязательно.')
-    last_name = forms.CharField(label="Фамилия", max_length=30, required=False,
-                                help_text='Ваша фамилия. Заполнять не обязательно.')
-    password1 = forms.CharField(label="Пароль", required=False, widget=forms.PasswordInput, help_text="Введите пароль.")
-    password2 = forms.CharField(label="Введите пароль еще раз", required=False, widget=forms.PasswordInput,
-                                help_text="Введите пароль еще раз.")
+    first_name = forms.CharField(label=USER_NAME, max_length=30, required=False,
+                                 help_text=USER_NAME_HELP_TEXT)
+    last_name = forms.CharField(label=LAST_NAME, max_length=30, required=False,
+                                help_text=LAST_NAME_HELP_TEXT)
+    password1 = forms.CharField(label=PASSWD1, required=False, widget=forms.PasswordInput, help_text=PASSWD1_HELP_TEXT)
+    password2 = forms.CharField(label=PASSWD2, required=False, widget=forms.PasswordInput,
+                                help_text=PASSWD2_HELP_TEXT)
 
     class Meta(UserChangeForm.Meta):
         model = User
@@ -27,18 +30,17 @@ class SignUpForm(UserCreationForm):
 
 
 class AdminUserChangeForm(UserChangeForm):
-    first_name = forms.CharField(label="Имя", max_length=30, required=False,
-                                 help_text='Ваше имя. Заполнять не обязательно.')
-    last_name = forms.CharField(label="Фамилия", max_length=30, required=False,
-                                help_text='Ваша фамилия. Заполнять не обязательно.')
-    password1 = forms.CharField(label="Пароль", required=False, widget=forms.PasswordInput, help_text="Введите пароль.")
-    password2 = forms.CharField(label="Введите пароль еще раз", required=False, widget=forms.PasswordInput,
-                                help_text="Введите пароль еще раз.")
+    first_name = forms.CharField(label=USER_NAME, max_length=30, required=False,
+                                 help_text=USER_NAME_HELP_TEXT)
+    last_name = forms.CharField(label=LAST_NAME, max_length=30, required=False,
+                                help_text=LAST_NAME_HELP_TEXT)
+    password1 = forms.CharField(label=PASSWD1, required=False, widget=forms.PasswordInput, help_text=PASSWD1_HELP_TEXT)
+    password2 = forms.CharField(label=PASSWD2, required=False, widget=forms.PasswordInput,
+                                help_text=PASSWD2_HELP_TEXT)
     password = None
 
     class Meta:
         model = User
-        # 'username',
         fields = ('first_name', 'last_name', 'username', 'password1', 'password2')
 
     def clean_password2(self):
@@ -46,7 +48,7 @@ class AdminUserChangeForm(UserChangeForm):
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError(
-                "Пароли не совпадают",
+                VALIDATION_ERROR,
                 code='password_mismatch',
             )
         return password2

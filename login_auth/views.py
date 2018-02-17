@@ -5,8 +5,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404, redirec
 from cookbook.models import Recipe
 from login_auth.models import User
 from . import forms
-
-LOGIN_ERROR = "Пользователь не существует"
+from .constants import LOGIN_ERROR
 
 
 def create_user(request):
