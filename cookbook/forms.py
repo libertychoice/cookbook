@@ -2,9 +2,8 @@ from dal import autocomplete
 from django import forms
 from djangoformsetjs.utils import formset_media_js
 
-from .constants import *
 from . import models
-# from tagging.forms import TagField
+from .constants import *
 
 
 class IngredientForm(forms.ModelForm):

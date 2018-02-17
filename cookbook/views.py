@@ -1,5 +1,6 @@
 import operator
 from functools import reduce
+
 from django.db.models import Q
 from django.forms.formsets import formset_factory
 from django.shortcuts import render, get_object_or_404, get_list_or_404
@@ -8,8 +9,6 @@ from django.views import generic
 from cookbook.models import *
 from . import forms
 from .constants import HOME_TITLE, FILTER_TITLE
-
-
 
 
 class IndexView(generic.UpdateView):
@@ -61,34 +60,6 @@ class IndexView(generic.UpdateView):
                       {'filter_recipes': filter_recipes, 'form': form, 'filter_title': FILTER_TITLE})
 
 
-# def recipes(request):
-#     """
-#     Show index page information with search form
-#     :param request:
-#     :return:
-#     """
-#     recipes = Recipe.objects.all().order_by('-id')[:10]
-#     category_main = CategoryMain.objects.all()
-#     category_using = CategoryUsing.objects.all()
-#     category_cooking = CategoryCooking.objects.all()
-#     category_diet = CategoryDiet.objects.all()
-#     category_geo = CategoryGeo.objects.all()
-#     username = auth.get_user(request)
-#     search_form = forms.RecipeSearchForm()
-#     context = {
-#         'recipes': recipes,
-#         'username': username,
-#         'title': HOME_TITLE,
-#         'category_main': category_main,
-#         'category_using': category_using,
-#         'category_cooking': category_cooking,
-#         'category_diet': category_diet,
-#         'category_geo': category_geo,
-#         'search_form': search_form
-#     }
-#     return render(request, 'cookbook/home.html', context)
-
-
 class AboutView(generic.View):
     """
     Render About page
@@ -98,14 +69,11 @@ class AboutView(generic.View):
         return render(request, 'cookbook/about.html')
 
 
-# def create(request):
-#     return render(request, 'cookbook/create.html')
-
-
 class CreateRecipeView(generic.View):
     """
     Create new recipe
     """
+
     def get(self, request, **kwargs):
         IngrFormSet = formset_factory(forms.IngredientForm, can_delete=True)
         AllDescrFormSet = formset_factory(forms.AllDescriptionForm, can_delete=True)
@@ -171,10 +139,3 @@ class ShowCategoryView(generic.View):
         """
         category_recipes = Recipe.objects.filter(category_main=category_id)
         return render(request, 'cookbook/category.html', {'category_recipes': category_recipes, })
-
-# def search_recipe(request):
-#     if request.method == 'POST':
-#         print(request.POST)
-#         filter_recipes = get_list_or_404(Recipe, recipe_name__icontains=request.POST['recipe_name'])
-#
-#     return render(request, 'cookbook/home.html', {'category_recipes': {}})

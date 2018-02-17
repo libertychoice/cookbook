@@ -5,9 +5,9 @@ from django.dispatch import receiver
 from taggit.managers import TaggableManager
 
 from login_auth.models import User
-from .constants import MEASURE_CHOICES, TIME_CHOICES, RECIPE_NAME, DESCRIPTION, DATE_TIME, YOUTUBE_HELP, \
+from .constants import MEASURE_CHOICES, TIME_CHOICES, \
+    RECIPE_NAME, DESCRIPTION, DATE_TIME, YOUTUBE_HELP, \
     UPLOAD_PHOTO_DIR, MAX_LEN_TEXT
-
 
 
 class CategoryUsing(models.Model):
@@ -87,10 +87,6 @@ class Recipe(models.Model):
 @receiver(pre_save, sender=Recipe)
 def replace_youtube_link(sender, instance, **kwargs):
     instance.youtube = instance.youtube.replace("youtu.be", "www.youtube.com/embed")
-
-
-# class IngredientBase(models.Model):
-#     tag = TaggableManager(blank=True)
 
 
 class Ingredient(models.Model):

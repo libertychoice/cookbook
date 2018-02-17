@@ -29,10 +29,3 @@ urlpatterns = [
     ),
 ]
 
-# path('recipes/<int:recipe_id>/', views.show_recipe, name='recipe_page'),
-# path('about/', views.about, name='about'),
-# path('create_recipe/', views.create_recipe, name='create_recipe'),
-
-# path('search_recipe/', views.search_recipe, name='search_recipe'),
-# path('create/', views.create, name='create'),
-# path('recipes/', views.recipes, name='recipes'),
