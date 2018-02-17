@@ -162,15 +162,20 @@ class ShowRecipeView(generic.View):
         return render(request, 'cookbook/recipe.html', {'form': form, 'recipe': recipe, 'ingr': ingr, 'descr': descr})
 
 
-def show_category(request, category_id):
+class ShowCategoryView(generic.View):
     """
-    Get recipes by category
-    :param request:
-    :param category_id:
-    :return: Recipe objects filtered by category
+    Show recipes from category
     """
-    category_recipes = Recipe.objects.filter(category_main=category_id)
-    return render(request, 'cookbook/category.html', {'category_recipes': category_recipes, })
+
+    def get(self, request, category_id):
+        """
+        Get recipes by category
+        :param request:
+        :param category_id:
+        :return: Recipe objects filtered by category
+        """
+        category_recipes = Recipe.objects.filter(category_main=category_id)
+        return render(request, 'cookbook/category.html', {'category_recipes': category_recipes, })
 
 # def search_recipe(request):
 #     if request.method == 'POST':

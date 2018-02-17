@@ -18,7 +18,7 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='home'),
     path('about/', views.AboutView.as_view(), name='about'),
     path('create_recipe/', login_required(views.CreateRecipeView.as_view()), name='create_recipe'),
-    path('category/<int:category_id>/', views.show_category, name='show_category'),
+    path('category/<int:category_id>/', views.ShowCategoryView.as_view(), name='show_category'),
     path('recipes/<int:recipe_id>/', views.ShowRecipeView.as_view(), name='recipe_page'),
     path(
         'test-autocomplete/',
