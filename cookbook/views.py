@@ -85,6 +85,8 @@ class CreateRecipeView(generic.View):
     def post(self, request, **kwargs):
         IngrFormSet = formset_factory(forms.IngredientForm, can_delete=True)
         AllDescrFormSet = formset_factory(forms.AllDescriptionForm, can_delete=True)
+        ingr = IngrFormSet()
+        descr = AllDescrFormSet()
         json_string = request.POST
         form = forms.RecipeForm(request.POST, request.FILES, initial={'author': ""})
         if form.is_valid():
@@ -104,6 +106,7 @@ class CreateRecipeView(generic.View):
                 p.recipe = recipe
                 p.save()
             return render(request, 'cookbook/added.html', {'form': form, 'recipe': recipe})
+        return render(request, 'cookbook/create.html', {'form': form, 'formset': ingr, 'all_descr': descr})
 
 
 class ShowRecipeView(generic.View):
