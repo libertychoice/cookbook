@@ -34,6 +34,5 @@ class RecipeViewTest(SetUp):
         self.assertEqual(response.status_code, 200)
 
     def test_show_invalid_recipe_view(self):
-        response = self.client.get(reverse('recipe_page', kwargs={'recipe_id': self.recipe.id}))
-        self.assertEqual(response.status_code, 200)
-
+        response = self.client.get(reverse('recipe_page', kwargs={'recipe_id': self.recipe.id + 1}))
+        self.assertEqual(response.status_code, 404)
