@@ -142,18 +142,24 @@ class CreateRecipeView(generic.View):
                 p.save()
             return render(request, 'cookbook/added.html', {'form': form, 'recipe': recipe})
 
-def show_recipe(request, recipe_id):
+
+class ShowRecipeView(generic.View):
     """
-    Get recipe by id
-    :param request:
-    :param recipe_id:
-    :return: Form, Recipe object, Ingredient object, AllDescription object (description with steps)
+    Show recipe page
     """
-    recipe = get_object_or_404(Recipe, id=recipe_id)
-    ingr = sorted(get_list_or_404(Ingredient, recipe=recipe), key=lambda x: x.id)
-    descr = sorted(AllDescription.objects.filter(recipe=recipe), key=lambda x: x.id)
-    form = forms.RecipeForm(instance=recipe)
-    return render(request, 'cookbook/recipe.html', {'form': form, 'recipe': recipe, 'ingr': ingr, 'descr': descr})
+
+    def get(self, request, recipe_id):
+        """
+        Get recipe by id
+        :param request:
+        :param recipe_id:
+        :return: Form, Recipe object, Ingredient object, AllDescription object (description with steps)
+        """
+        recipe = get_object_or_404(Recipe, id=recipe_id)
+        ingr = sorted(get_list_or_404(Ingredient, recipe=recipe), key=lambda x: x.id)
+        descr = sorted(AllDescription.objects.filter(recipe=recipe), key=lambda x: x.id)
+        form = forms.RecipeForm(instance=recipe)
+        return render(request, 'cookbook/recipe.html', {'form': form, 'recipe': recipe, 'ingr': ingr, 'descr': descr})
 
 
 def show_category(request, category_id):
