@@ -6,7 +6,7 @@ from django.views import generic
 from cookbook.models import Recipe
 from login_auth.models import User
 from . import forms
-from .constants import LOGIN_ERROR
+from .constants import LOGIN_ERROR, REGISTER_ERROR
 
 
 class CreateUserView(generic.View):
@@ -28,7 +28,9 @@ class CreateUserView(generic.View):
             auth.login(request, new_user)
             return HttpResponseRedirect("/")
         else:
-            return render(request, 'login_auth/register.html', {'form': form})
+            register_error = REGISTER_ERROR
+            errors = {"register_error": register_error}
+            return render(request, 'login_auth/register.html', {'form': form, 'errors': errors})
 
 
 class LoginView(generic.View):
