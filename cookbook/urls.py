@@ -16,7 +16,7 @@ def get_ingredients():
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='home'),
-    path('about/', views.about, name='about'),
+    path('about/', views.AboutView.as_view(), name='about'),
     path('create_recipe/', login_required(views.CreateRecipeView.as_view()), name='create_recipe'),
     path('category/<int:category_id>/', views.show_category, name='show_category'),
     path('recipes/<int:recipe_id>/', views.show_recipe, name='recipe_page'),
@@ -29,6 +29,7 @@ urlpatterns = [
     ),
 ]
 
+# path('about/', views.about, name='about'),
 # path('create_recipe/', views.create_recipe, name='create_recipe'),
 
 # path('search_recipe/', views.search_recipe, name='search_recipe'),

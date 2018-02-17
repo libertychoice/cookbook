@@ -94,13 +94,13 @@ class IndexView(generic.UpdateView):
 #     return render(request, 'cookbook/home.html', context)
 
 
-def about(request):
+class AboutView(generic.View):
     """
     Render About page
-    :param request:
-    :return:
     """
-    return render(request, 'cookbook/about.html')
+
+    def get(self, request, **kwargs):
+        return render(request, 'cookbook/about.html')
 
 
 # def create(request):
@@ -110,10 +110,7 @@ def about(request):
 class CreateRecipeView(generic.View):
     """
     Create new recipe
-    :param request:
-    :return:
     """
-
     def get(self, request, **kwargs):
         IngrFormSet = formset_factory(forms.IngredientForm, can_delete=True)
         AllDescrFormSet = formset_factory(forms.AllDescriptionForm, can_delete=True)
