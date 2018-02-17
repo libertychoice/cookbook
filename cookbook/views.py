@@ -1,8 +1,5 @@
 import operator
 from functools import reduce
-
-from django.contrib import auth
-from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.forms.formsets import formset_factory
 from django.shortcuts import render, get_object_or_404, get_list_or_404
@@ -10,11 +7,9 @@ from django.views import generic
 
 from cookbook.models import *
 from . import forms
+from .constants import HOME_TITLE, FILTER_TITLE
 
-HOME_TITLE = "Свежие рецепты"
-FILTER_TITLE = "Найденные рецепты"
 
-# Create your views here.
 
 
 class IndexView(generic.UpdateView):

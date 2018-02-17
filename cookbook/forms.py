@@ -2,59 +2,9 @@ from dal import autocomplete
 from django import forms
 from djangoformsetjs.utils import formset_media_js
 
+from .constants import *
 from . import models
-
 # from tagging.forms import TagField
-
-RECIPE_NAME = "Название рецепта"
-DESCRIPTION = "Описание"
-YOUTUBE = "Видео с YouTube"
-CATEGORY_USING = "Назначение"
-CATEGORY_GEO = "География кухни"
-CATEGORY_MAIN = "Блюдо"
-CATEGORY_DIET = "Диета"
-CATEGORY_COOKING = "Приготовление"
-ALL_DESCR = "Текст рецепта"
-COUNT = "Количество порций"
-TIME = "Время приготовления"
-AUTHOR = "Автор рецепта"
-INGREDIENTS = "Ингридиенты"
-
-CATEGORY_USING_CHOICES = (
-    ("1", "На обед"),
-    ("2", "На завтрак")
-)
-
-CATEGORY_GEO_CHOICES = (
-    (1, "Европейская"),
-    (2, "Азиатская")
-)
-
-CATEGORY_MAIN_CHOICES = (
-    (1, "Вторые блюда"),
-    (2, "Салаты")
-)
-
-CATEGORY_DIET_CHOICES = (
-    (1, "ПП"),
-    (2, "Вегетарианские")
-)
-
-CATEGORY_COOKING_CHOICES = (
-    (1, "Духовка"),
-    (2, "Гриль")
-)
-
-MEASURE_CHOICES = (
-    ("кг", "кг"),
-    ("грамм", "грамм")
-)
-
-TIME_CHOICES = (
-    ("минут", "минут"),
-    ("часов", "часов"),
-    ("дней", "дней")
-)
 
 
 class IngredientForm(forms.ModelForm):

@@ -5,45 +5,9 @@ from django.dispatch import receiver
 from taggit.managers import TaggableManager
 
 from login_auth.models import User
+from .constants import MEASURE_CHOICES, TIME_CHOICES, RECIPE_NAME, DESCRIPTION, DATE_TIME, YOUTUBE_HELP, \
+    UPLOAD_PHOTO_DIR, MAX_LEN_TEXT
 
-# Create your models here.
-MAX_LEN_TEXT = 200
-
-CATEGORY_USING_CHOICES = (
-    (1, "На обед"),
-    (2, "На завтрак")
-)
-
-CATEGORY_GEO_CHOICES = (
-    (1, "Европейская"),
-    (2, "Азиатская")
-)
-
-CATEGORY_MAIN_CHOICES = (
-    (1, "Вторые блюда"),
-    (2, "Салаты")
-)
-
-CATEGORY_DIET_CHOICES = (
-    (1, "ПП"),
-    (2, "Вегетарианские")
-)
-
-CATEGORY_COOKING_CHOICES = (
-    (1, "Духовка"),
-    (2, "Гриль")
-)
-
-MEASURE_CHOICES = (
-    ("кг", "кг"),
-    ("грамм", "грамм")
-)
-
-TIME_CHOICES = (
-    ("минут", "минут"),
-    ("часов", "часов"),
-    ("дней", "дней")
-)
 
 
 class CategoryUsing(models.Model):
@@ -93,9 +57,9 @@ class Recipe(models.Model):
     """
     Recipe model
     """
-    recipe_name = models.CharField("Название рецепта", blank=True, max_length=200)
-    shortdescription = models.CharField("Краткое описание", blank=True, max_length=500)
-    youtube = models.CharField(blank=True, help_text="Вставьте ссылку на видео с YouTube, если она имеется",
+    recipe_name = models.CharField(verbose_name=RECIPE_NAME, blank=True, max_length=200)
+    shortdescription = models.CharField(verbose_name=DESCRIPTION, blank=True, max_length=500)
+    youtube = models.CharField(blank=True, help_text=YOUTUBE_HELP,
                                max_length=200)
     category_using = models.ManyToManyField(CategoryUsing, blank=True)
     category_geo = models.ManyToManyField(CategoryGeo, blank=True)
@@ -108,7 +72,7 @@ class Recipe(models.Model):
     count = models.CharField(blank=True, default="", max_length=200)
     image = models.ImageField(blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, default="")
-    datetime = models.DateTimeField("Дата создания", auto_now_add=True, blank=True)  #
+    datetime = models.DateTimeField(verbose_name=DATE_TIME, auto_now_add=True, blank=True)
 
     def __str__(self):
         return self.recipe_name
@@ -149,7 +113,7 @@ class AllDescription(models.Model):
     """
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, blank=True)
     step = models.CharField(blank=True, max_length=200)
-    photo = models.ImageField(blank=True, upload_to='files/')
+    photo = models.ImageField(blank=True, upload_to=UPLOAD_PHOTO_DIR)
 
     def __str__(self):
         return str(self.step[:100])
